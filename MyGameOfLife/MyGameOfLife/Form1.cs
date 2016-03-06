@@ -53,6 +53,7 @@ namespace MyGameOfLife
             p.Dispose();
         }
 
+        //Changes wether a cell is alive or dead when clicked in the graphics panel
         private void graphicsPanel_MouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -62,6 +63,7 @@ namespace MyGameOfLife
             }
         }
 
+        //Clears the whole board by setting everything to dead
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < size.X; i++)
@@ -76,16 +78,19 @@ namespace MyGameOfLife
             graphicsPanel.Invalidate();
         }
 
+        //Starts the game of life algorithm by enabling the timer
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer1.Enabled = true;
         }
 
+        //pauses the timer
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer1.Enabled = false;
         }
 
+        //moves one tick further into the algorithm
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RunLife();
@@ -151,6 +156,7 @@ namespace MyGameOfLife
             return nei;
         }
 
+        //if forms size changes so does the graphics panel
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             graphicsPanel.Width = Form1.ActiveForm.Width;

@@ -24,6 +24,7 @@ namespace MyGameOfLife
             alive = new bool[size.X,size.Y];
             temp = new bool[size.X,size.Y];
             timer1.Interval = 50;
+            this.Text = "My Game Of Life";
         }
 
         private void graphicsPanel_Paint(object sender, PaintEventArgs e)

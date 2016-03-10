@@ -19,6 +19,7 @@ namespace MyGameOfLife
         public bool high = true;
         public Color linecolor = Color.Black;
         public Color pixelcolor = Color.Black;
+        public Random ran = new Random();
 
         public Form1()
         {
@@ -224,6 +225,23 @@ namespace MyGameOfLife
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        //Randomly places alive cells thorughout the entire bool array
+        private void randomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < alive.GetUpperBound(0); i++)
+            {
+                for(int j = 0; j < alive.GetUpperBound(1); j++)
+                {
+                    if (ran.Next() % 2 == 0)
+                    {
+                        alive[i, j] = true;
+                    }
+                    else alive[i, j] = false;
+                }
+            }
+            graphicsPanel.Invalidate();
         }
 
         //if forms size changes so does the graphics panel

@@ -153,6 +153,7 @@ namespace MyGameOfLife
             alive = temp;
         }
 
+        //When the timer is enabled this Runs the Life algorithm every tick
         private void timer1_Tick(object sender, EventArgs e)
         {
             RunLife();
@@ -181,6 +182,7 @@ namespace MyGameOfLife
             return nei;
         }
 
+        //gets the number of neighbors surrounding a specified pixel and doesn't stop at edges, instead it searches the opposite side
         public int GetSurroundingTurodial(int x, int y)
         {
             int nei = 0;
@@ -218,6 +220,7 @@ namespace MyGameOfLife
             return nei;
         }
 
+        //exits application
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -232,6 +235,7 @@ namespace MyGameOfLife
             graphicsPanel.Invalidate();
         }
 
+        //if the grid size changes this function runs to resize the boolean arrays
         private void ChangeSize()
         {
             temp = alive;

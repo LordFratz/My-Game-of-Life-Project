@@ -15,12 +15,16 @@ namespace MyGameOfLife
         public Point size = new Point();
         public bool[,] alive, temp;
         public float spaceX, spaceY;
+        public bool tor = true;
+        public bool high = true;
+        public Color linecolor = Color.Black;
+        public Color pixelcolor = Color.Black;
 
         public Form1()
         {
             InitializeComponent();
-            size.X = 50;
-            size.Y = 50;
+            size.X = 100;
+            size.Y = 100;
             alive = new bool[size.X,size.Y];
             temp = new bool[size.X,size.Y];
             timer1.Interval = 50;
@@ -29,16 +33,31 @@ namespace MyGameOfLife
 
         private void graphicsPanel_Paint(object sender, PaintEventArgs e)
         {
+            if(alive.GetUpperBound(0) != size.X - 1  || alive.GetUpperBound(1) != size.Y - 1)
+            {
+                ChangeSize();
+            }
             spaceX = (float)graphicsPanel.Width / size.X;
             spaceY = (float)graphicsPanel.Height / size.Y;
-            Pen p = new Pen(Color.Black);
+            Pen p = new Pen(linecolor);
+            SolidBrush b = new SolidBrush(pixelcolor);
             for (int i = 0; i <= size.X; i++)
             {
+                if(i % 5 == 0 && high)
+                {
+                    p.Width = 3;
+                }
                 e.Graphics.DrawLine(p,i * spaceX,0,i * spaceX,graphicsPanel.Height);
+                p.Width = 1;
             }
             for(int i = 0; i <= size.Y; i++)
             {
+                if (i % 5 == 0 && high)
+                {
+                    p.Width = 3;
+                }
                 e.Graphics.DrawLine(p,0,i*spaceY,graphicsPanel.Width,i*spaceY);
+                p.Width = 1;
             }
             for (int i = 0; i < size.X; i++)
             {
@@ -46,7 +65,7 @@ namespace MyGameOfLife
                 {
                     if (alive[i, j] == true)
                     {
-                        e.Graphics.FillRectangle(Brushes.Black, i * spaceX, j * spaceY, spaceX, spaceY);
+                        e.Graphics.FillRectangle(b, i * spaceX, j * spaceY, spaceX, spaceY);
                     }
                 }
             }
@@ -73,8 +92,6 @@ namespace MyGameOfLife
                     alive[i, j] = false;
                 }
             }
-            size.X = 50;
-            size.Y = 50;
             graphicsPanel.Invalidate();
         }
 
@@ -108,14 +125,22 @@ namespace MyGameOfLife
                     switch(alive[i,j])
                     {
                         case true:
-                            nei = GetSurrounding(i,j);
+                            if (tor)
+                            {
+                                nei = GetSurroundingTurodial(i, j);
+                            }
+                            else nei = GetSurrounding(i, j);
                             if (nei < 2 || nei > 3)
                                 temp[i, j] = false;
                             else
                                 temp[i, j] = true;
                             break;
                         case false:
-                            nei = GetSurrounding(i,j);
+                            if(tor)
+                            {
+                                nei = GetSurroundingTurodial(i, j);
+                            }
+                            else nei = GetSurrounding(i,j);
                             if (nei == 3)
                                 temp[i, j] = true;
                             else
@@ -156,6 +181,48 @@ namespace MyGameOfLife
             return nei;
         }
 
+        public int GetSurroundingTurodial(int x, int y)
+        {
+            int nei = 0;
+            Point check = new Point();
+
+            for (int i = x - 1; i < x + 2; i++)
+            {
+                for (int j = y - 1; j < y + 2; j++)
+                {
+                    check.X = i;
+                    check.Y = j;
+                    if(i < 0)
+                    {
+                        check.X = size.X - 1;
+                    }
+                    if(j < 0)
+                    {
+                        check.Y = size.Y - 1;
+                    }
+                    if(i >= size.X)
+                    {
+                        check.X = 0;
+                    }
+                    if(j >= size.Y)
+                    {
+                        check.Y = 0;
+                    }
+                    if (alive[check.X, check.Y] && !(i == x && j == y))
+                    {
+                        nei++;
+                    }
+                }
+            }
+
+            return nei;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         //if forms size changes so does the graphics panel
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
@@ -163,6 +230,24 @@ namespace MyGameOfLife
             graphicsPanel.Height = Form1.ActiveForm.Height;
             graphicsPanel.Height -= (25 + 28 + 27 + 41);
             graphicsPanel.Invalidate();
+        }
+
+        private void ChangeSize()
+        {
+            temp = alive;
+            alive = new bool[size.X,size.Y];
+            for(int i = 0; i < temp.GetUpperBound(0); i++)
+            {
+                if(i >= alive.GetUpperBound(0))
+                    continue;
+                for(int j = 0; j < temp.GetUpperBound(1); j++)
+                {
+                    if (j >= alive.GetUpperBound(1))
+                        continue;
+                    alive[i, j] = temp[i, j];
+                }
+            }
+            temp = new bool[size.X, size.Y];
         }
     }
 }

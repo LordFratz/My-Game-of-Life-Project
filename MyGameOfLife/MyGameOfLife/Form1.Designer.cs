@@ -49,12 +49,19 @@
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.graphicsPanel = new MyGameOfLife.GraphicsPanel();
             this.universeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphicsPanel = new MyGameOfLife.GraphicsPanel();
+            this.GenerationLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.AliveLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.millisecondsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.GenerationNum = new System.Windows.Forms.ToolStripStatusLabel();
+            this.AliveNum = new System.Windows.Forms.ToolStripStatusLabel();
+            this.millisecondsnum = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.Save.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -214,25 +221,22 @@
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 497);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.GenerationLabel,
+            this.GenerationNum,
+            this.AliveLabel,
+            this.AliveNum,
+            this.millisecondsLabel,
+            this.millisecondsnum});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 494);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(670, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(670, 25);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // graphicsPanel
-            // 
-            this.graphicsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphicsPanel.Location = new System.Drawing.Point(0, 58);
-            this.graphicsPanel.Name = "graphicsPanel";
-            this.graphicsPanel.Size = new System.Drawing.Size(670, 439);
-            this.graphicsPanel.TabIndex = 0;
-            this.graphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel_Paint);
-            this.graphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel_MouseClick);
             // 
             // universeToolStripMenuItem
             // 
@@ -256,6 +260,52 @@
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
+            // graphicsPanel
+            // 
+            this.graphicsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphicsPanel.Location = new System.Drawing.Point(0, 58);
+            this.graphicsPanel.Name = "graphicsPanel";
+            this.graphicsPanel.Size = new System.Drawing.Size(670, 439);
+            this.graphicsPanel.TabIndex = 0;
+            this.graphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel_Paint);
+            this.graphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel_MouseClick);
+            // 
+            // GenerationLabel
+            // 
+            this.GenerationLabel.Name = "GenerationLabel";
+            this.GenerationLabel.Size = new System.Drawing.Size(89, 20);
+            this.GenerationLabel.Text = "Generation: ";
+            // 
+            // AliveLabel
+            // 
+            this.AliveLabel.Name = "AliveLabel";
+            this.AliveLabel.Size = new System.Drawing.Size(49, 20);
+            this.AliveLabel.Text = "Alive: ";
+            // 
+            // millisecondsLabel
+            // 
+            this.millisecondsLabel.Name = "millisecondsLabel";
+            this.millisecondsLabel.Size = new System.Drawing.Size(98, 20);
+            this.millisecondsLabel.Text = "milliseconds: ";
+            // 
+            // GenerationNum
+            // 
+            this.GenerationNum.Name = "GenerationNum";
+            this.GenerationNum.Size = new System.Drawing.Size(17, 20);
+            this.GenerationNum.Text = "0";
+            // 
+            // AliveNum
+            // 
+            this.AliveNum.Name = "AliveNum";
+            this.AliveNum.Size = new System.Drawing.Size(17, 20);
+            this.AliveNum.Text = "0";
+            // 
+            // millisecondsnum
+            // 
+            this.millisecondsnum.Name = "millisecondsnum";
+            this.millisecondsnum.Size = new System.Drawing.Size(17, 20);
+            this.millisecondsnum.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -273,6 +323,8 @@
             this.menuStrip1.PerformLayout();
             this.Save.ResumeLayout(false);
             this.Save.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,6 +355,12 @@
         private System.Windows.Forms.ToolStripMenuItem universeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel GenerationLabel;
+        private System.Windows.Forms.ToolStripStatusLabel AliveLabel;
+        private System.Windows.Forms.ToolStripStatusLabel millisecondsLabel;
+        private System.Windows.Forms.ToolStripStatusLabel GenerationNum;
+        private System.Windows.Forms.ToolStripStatusLabel AliveNum;
+        private System.Windows.Forms.ToolStripStatusLabel millisecondsnum;
     }
 }
 

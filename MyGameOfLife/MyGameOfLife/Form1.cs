@@ -20,6 +20,8 @@ namespace MyGameOfLife
         public Color linecolor = Color.Black;
         public Color pixelcolor = Color.Black;
         public Random ran = new Random();
+        public ulong gen = 0;
+        public ulong amtalive = 0;
 
         public Form1()
         {
@@ -118,6 +120,7 @@ namespace MyGameOfLife
         public void RunLife()
         {
             int nei = 0;
+            amtalive = 0;
             temp = new bool[size.X,size.Y];
             for (int i = 0; i < size.X; i++)
             {
@@ -135,6 +138,7 @@ namespace MyGameOfLife
                                 temp[i, j] = false;
                             else
                                 temp[i, j] = true;
+                            amtalive++;
                             break;
                         case false:
                             if(tor)
@@ -150,6 +154,13 @@ namespace MyGameOfLife
                     }
                 }
             }
+            gen++;
+            if(amtalive != 0)
+            {
+                GenerationNum.Text = "" + gen;
+            }
+            AliveNum.Text = "" + amtalive;
+            millisecondsnum.Text = "" + timer1.Interval;
             graphicsPanel.Invalidate();
             alive = temp;
         }
@@ -270,6 +281,12 @@ namespace MyGameOfLife
                 }
             }
             temp = new bool[size.X, size.Y];
+        }
+
+        //changes interval of time when called
+        private void ChangeTimer(int t)
+        {
+            timer1.Interval = t;
         }
     }
 }

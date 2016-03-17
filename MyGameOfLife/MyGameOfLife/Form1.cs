@@ -22,12 +22,14 @@ namespace MyGameOfLife
         public Random ran = new Random();
         public ulong gen = 0;
         public ulong amtalive = 0;
+        public int highamt;
 
         public Form1()
         {
             InitializeComponent();
             size.X = 100;
             size.Y = 100;
+            highamt = 5;
             alive = new bool[size.X,size.Y];
             temp = new bool[size.X,size.Y];
             timer1.Interval = 50;
@@ -44,24 +46,6 @@ namespace MyGameOfLife
             spaceY = (float)graphicsPanel.Height / size.Y;
             Pen p = new Pen(linecolor);
             SolidBrush b = new SolidBrush(pixelcolor);
-            for (int i = 0; i <= size.X; i++)
-            {
-                if(i % 5 == 0 && high)
-                {
-                    p.Width = 3;
-                }
-                e.Graphics.DrawLine(p,i * spaceX,0,i * spaceX,graphicsPanel.Height);
-                p.Width = 1;
-            }
-            for(int i = 0; i <= size.Y; i++)
-            {
-                if (i % 5 == 0 && high)
-                {
-                    p.Width = 3;
-                }
-                e.Graphics.DrawLine(p,0,i*spaceY,graphicsPanel.Width,i*spaceY);
-                p.Width = 1;
-            }
             for (int i = 0; i < size.X; i++)
             {
                 for (int j = 0; j < size.Y; j++)
@@ -71,6 +55,24 @@ namespace MyGameOfLife
                         e.Graphics.FillRectangle(b, i * spaceX, j * spaceY, spaceX, spaceY);
                     }
                 }
+            }
+            for (int i = 0; i <= size.X; i++)
+            {
+                if(i % highamt == 0 && high)
+                {
+                    p.Width = 3;
+                }
+                e.Graphics.DrawLine(p,i * spaceX,0,i * spaceX,graphicsPanel.Height);
+                p.Width = 1;
+            }
+            for (int i = 0; i <= size.Y; i++)
+            {
+                if (i % highamt == 0 && high)
+                {
+                    p.Width = 3;
+                }
+                e.Graphics.DrawLine(p,0,i*spaceY,graphicsPanel.Width,i*spaceY);
+                p.Width = 1;
             }
             p.Dispose();
         }
@@ -95,6 +97,10 @@ namespace MyGameOfLife
                     alive[i, j] = false;
                 }
             }
+            gen = 0;
+            amtalive = 0;
+            GenerationNum.Text = "" + gen;
+            AliveNum.Text = "" + amtalive;
             graphicsPanel.Invalidate();
         }
 
@@ -261,6 +267,22 @@ namespace MyGameOfLife
             graphicsPanel.Width = Form1.ActiveForm.Width;
             graphicsPanel.Height = Form1.ActiveForm.Height;
             graphicsPanel.Height -= (25 + 28 + 27 + 41);
+            graphicsPanel.Invalidate();
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 temp = new Form2(timer1.Interval, size.Y, size.X, highamt, graphicsPanel.BackColor, linecolor, pixelcolor, tor, high);
+            temp.ShowDialog();
+            timer1.Interval = temp.mill;
+            size.Y = temp.rows;
+            size.X = temp.columns;
+            graphicsPanel.BackColor = temp.background;
+            linecolor = temp.grid;
+            pixelcolor = temp.Cells;
+            tor = temp.tor;
+            high = temp.high;
+            highamt = temp.skip;
             graphicsPanel.Invalidate();
         }
 

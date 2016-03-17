@@ -72,12 +72,13 @@ namespace MyGameOfLife
                 CellsButton.BackColor = pick.Color;
             }
         }
-
+        //just closes and doesn't change anything
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //sets all the values to the selected one in the dialog box before closing
         private void OKButton_Click(object sender, EventArgs e)
         {
             mill = (int)MillisecondsUpDown.Value;

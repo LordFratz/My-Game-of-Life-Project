@@ -12,6 +12,7 @@ namespace MyGameOfLife
 {
     public partial class Form1 : Form
     {
+        //universe values
         public Point size = new Point();
         public bool[,] alive, temp;
         public float spaceX, spaceY;
@@ -270,6 +271,7 @@ namespace MyGameOfLife
             graphicsPanel.Invalidate();
         }
 
+        //opens the optons modal dialog box and changes the universe values depending on the settings that were changed
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 temp = new Form2(timer1.Interval, size.Y, size.X, highamt, graphicsPanel.BackColor, linecolor, pixelcolor, tor, high);

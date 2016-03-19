@@ -16,10 +16,10 @@ namespace MyGameOfLife
         public Point size = new Point();
         public bool[,] alive, temp;
         public float spaceX, spaceY;
-        public bool tor = true;
-        public bool high = true;
-        public Color linecolor = Color.Black;
-        public Color pixelcolor = Color.Black;
+        public bool tor = Properties.Settings.Default.Toro;
+        public bool high = Properties.Settings.Default.High;
+        public Color linecolor = Properties.Settings.Default.GridColor;
+        public Color pixelcolor = Properties.Settings.Default.PixelColor;
         public Random ran = new Random();
         public ulong gen = 0;
         public ulong amtalive = 0;
@@ -28,12 +28,13 @@ namespace MyGameOfLife
         public Form1()
         {
             InitializeComponent();
-            size.X = 100;
-            size.Y = 100;
-            highamt = 5;
+            size.X = Properties.Settings.Default.Width;
+            size.Y = Properties.Settings.Default.Height;
+            highamt = Properties.Settings.Default.HighAmt;
+            graphicsPanel.BackColor = Properties.Settings.Default.BackColor;
             alive = new bool[size.X,size.Y];
             temp = new bool[size.X,size.Y];
-            timer1.Interval = 50;
+            timer1.Interval = Properties.Settings.Default.milliseconds;
             this.Text = "My Game Of Life";
         }
 
@@ -242,7 +243,7 @@ namespace MyGameOfLife
         //exits application
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         //Randomly places alive cells thorughout the entire bool array
@@ -286,6 +287,20 @@ namespace MyGameOfLife
             high = temp.high;
             highamt = temp.skip;
             graphicsPanel.Invalidate();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.BackColor = graphicsPanel.BackColor;
+            Properties.Settings.Default.PixelColor = pixelcolor;
+            Properties.Settings.Default.GridColor = linecolor;
+            Properties.Settings.Default.Height = size.Y;
+            Properties.Settings.Default.Width = size.X;
+            Properties.Settings.Default.Toro = tor;
+            Properties.Settings.Default.milliseconds = timer1.Interval;
+            Properties.Settings.Default.High = high;
+            Properties.Settings.Default.HighAmt = highamt;
+            Properties.Settings.Default.Save();
         }
 
         //if the grid size changes this function runs to resize the boolean arrays

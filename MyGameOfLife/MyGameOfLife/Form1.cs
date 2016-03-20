@@ -305,6 +305,7 @@ namespace MyGameOfLife
             Properties.Settings.Default.Save();
         }
 
+        //save to the current "open" file, IE is you opened or saved a file before pressing the button
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (filename != null)
@@ -330,6 +331,7 @@ namespace MyGameOfLife
             }
         }
 
+        //saves a new file with they users disered name
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog file = new SaveFileDialog();
@@ -359,6 +361,7 @@ namespace MyGameOfLife
             }
         }
 
+        //Loads a file and displays it in application
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
@@ -367,7 +370,9 @@ namespace MyGameOfLife
             if (file.ShowDialog() == DialogResult.OK)
             {
                 StreamReader reader = new StreamReader(file.FileName);
-                string temp;
+                filename = file.FileName;
+                alive = new bool[size.X, size.Y];
+                string tempp;
                 int Y = 0;
                 while(!reader.EndOfStream)
                 {
@@ -375,10 +380,10 @@ namespace MyGameOfLife
                     {
                         break;
                     }
-                    temp = reader.ReadLine();
-                    for(int i = 0; i < alive.GetUpperBound(1) && i < temp.Length; i++)
+                    tempp = reader.ReadLine();
+                    for(int i = 0; i < alive.GetUpperBound(1) && i < tempp.Length; i++)
                     {
-                        switch(temp[i])
+                        switch(tempp[i])
                         {
                             case '.':
                                 alive[Y, i] = false;
@@ -392,6 +397,12 @@ namespace MyGameOfLife
                 }
             }
             graphicsPanel.Invalidate();
+        }
+
+        //Imports a file of the user choosing by not deleting anything insede the universe
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         //if the grid size changes this function runs to resize the boolean arrays

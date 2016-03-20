@@ -381,6 +381,10 @@ namespace MyGameOfLife
                         break;
                     }
                     tempp = reader.ReadLine();
+                    if(tempp[0] == '!')
+                    {
+                        continue;
+                    }
                     for(int i = 0; i < alive.GetUpperBound(1) && i < tempp.Length; i++)
                     {
                         switch(tempp[i])
@@ -402,7 +406,42 @@ namespace MyGameOfLife
         //Imports a file of the user choosing by not deleting anything insede the universe
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            OpenFileDialog file = new OpenFileDialog();
+            file.InitialDirectory = Application.StartupPath;
+            file.Filter = ".Cells (*.cells)|*.cells|.Txt (*.txt)|*.txt";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader reader = new StreamReader(file.FileName);
+                filename = file.FileName;
+                string tempp;
+                int Y = 0;
+                while (!reader.EndOfStream)
+                {
+                    if (Y >= alive.GetUpperBound(0))
+                    {
+                        break;
+                    }
+                    tempp = reader.ReadLine();
+                    if (tempp[0] == '!')
+                    {
+                        continue;
+                    }
+                    for (int i = 0; i < alive.GetUpperBound(1) && i < tempp.Length; i++)
+                    {
+                        switch (tempp[i])
+                        {
+                            case '.':
+                                alive[Y, i] = false;
+                                break;
+                            case 'O':
+                                alive[Y, i] = true;
+                                break;
+                        }
+                    }
+                    Y++;
+                }
+            }
+            graphicsPanel.Invalidate();
         }
 
         //if the grid size changes this function runs to resize the boolean arrays

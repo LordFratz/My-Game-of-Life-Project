@@ -394,7 +394,7 @@
         private System.Windows.Forms.RadioButton FiniteRadioButton;
         private System.Windows.Forms.RadioButton TorodialRadioButton;
         private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.Button CancelButton;
+        private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace MyGameOfLife
         public Color linecolor = Properties.Settings.Default.GridColor;
         public Color pixelcolor = Properties.Settings.Default.PixelColor;
         public Random ran = new Random();
+        public string filename = null;
         public ulong gen = 0;
         public ulong amtalive = 0;
         public int highamt;
@@ -301,6 +303,95 @@ namespace MyGameOfLife
             Properties.Settings.Default.High = high;
             Properties.Settings.Default.HighAmt = highamt;
             Properties.Settings.Default.Save();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (filename != null)
+            {
+                StreamWriter writer = new StreamWriter(filename);
+                for (int i = 0; i < alive.GetUpperBound(0); i++)
+                {
+                    for (int j = 0; j < alive.GetUpperBound(1); j++)
+                    {
+                        switch (alive[j, i])
+                        {
+                            case true:
+                                writer.Write("O");
+                                break;
+                            case false:
+                                writer.Write(".");
+                                break;
+                        }
+                    }
+                    writer.WriteLine();
+                }
+                writer.Close();
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog file = new SaveFileDialog();
+            file.InitialDirectory = Application.StartupPath;
+            file.Filter = ".Txt (*.txt)|*.txt";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter writer = new StreamWriter(file.FileName);
+                filename = file.FileName;
+                for (int i = 0; i < alive.GetUpperBound(0); i++)
+                {
+                    for (int j = 0; j < alive.GetUpperBound(1); j++)
+                    {
+                        switch (alive[i, j])
+                        {
+                            case true:
+                                writer.Write("O");
+                                break;
+                            case false:
+                                writer.Write(".");
+                                break;
+                        }
+                    }
+                    writer.WriteLine();
+                }
+                writer.Close();
+            }
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.InitialDirectory = Application.StartupPath;
+            file.Filter = ".Txt (*.txt)|*.txt";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader reader = new StreamReader(file.FileName);
+                string temp;
+                int Y = 0;
+                while(!reader.EndOfStream)
+                {
+                    if (Y >= alive.GetUpperBound(0))
+                    {
+                        break;
+                    }
+                    temp = reader.ReadLine();
+                    for(int i = 0; i < alive.GetUpperBound(1) && i < temp.Length; i++)
+                    {
+                        switch(temp[i])
+                        {
+                            case '.':
+                                alive[Y, i] = false;
+                                break;
+                            case 'O':
+                                alive[Y, i] = true;
+                                break;
+                        }
+                    }
+                    Y++;
+                }
+            }
+            graphicsPanel.Invalidate();
         }
 
         //if the grid size changes this function runs to resize the boolean arrays
